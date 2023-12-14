@@ -10,25 +10,28 @@ Window {
     title: qsTr("Hello World")
 
 //bool running
+    property bool running:false
     Item{
         id: stateID
         focus: true
         state: "IDLE"
         anchors.fill: parent
-        Keys.onPressed: toggleGame();
 
+        MainController{id:mainController}
+
+        Keys.onEscapePressed: mainController.toggleGame();
 
         states:[
         State{
             name: "PAUSED"
             StateChangeScript{
-                script: root.pause();
+                script: mainController.pause();
             }
         },
             State{
-                name: "CONTINUE"
+                name: "RUNNING"
                 StateChangeScript{
-                    script: root.play();
+                    script: mainController.play();
                 }
             },
             State{
@@ -37,13 +40,24 @@ Window {
 
         ]
 
-        Menu{
-            onStart: root.start();
+        MouseArea{
+            id:mouseArea
+            propagateComposedEvents: true
+            anchors.fill: parent
+            onPositionChanged: mainController.follow();
+            hoverEnabled:true
+        }
+
+        MenuController{
+            id:menu
+//            onStart: root.start();
+        }
+        Game{
+            id:game
+            visible:false
         }
 
 
-
-
     }
 
 
@@ -51,29 +65,6 @@ Window {
 
 
 
-    function toggleGame(){
-//        if()
 
-        if(stateID.state=="PAUSED"){
-            stateID.state="CONTINUE";
-//            root.play();
-        }
-        else{
-            stateID.state="PAUSED";
-//            root.pause();
-        }
-
-        console.log("toggling");
-    }
-
-    function start(){
-        console.log("start gry dziala");
-    }
-    function pause(){
-        console.log("pause works");
-    }
-    function play(){
-        console.log("play works");
-    }
 
 }

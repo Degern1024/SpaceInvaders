@@ -4,7 +4,11 @@ import QtQuick.Controls
 Item {
 id: menu
 //    property alias fun: b1.onClicked
+        property alias notificationVis: notification.visible
         signal start()
+        signal show()
+        signal quit()
+        signal hide()
     Text{
         x: root.width/3
         y: root.height/4
@@ -80,14 +84,5 @@ id: menu
 //    function start(){
 //        console.log("dziala");
 //    }
-    function show(){
-        notification.visible=true;
-    }
 
-    function quit(){
-        Qt.exit(0);
-    }
-    function hide(){
-        notification.visible=false;
-    }
 }
