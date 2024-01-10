@@ -10,9 +10,10 @@ Window {
     title: qsTr("Hello World")
 
 //bool running
-    property bool running:false
+    property bool running:false //true if game started, nothing else
+    property list<Bullet> bulletList;
     Item{
-        id: stateID
+        id: gameWrapper
         focus: true
         state: "IDLE"
         anchors.fill: parent
@@ -25,13 +26,13 @@ Window {
         State{
             name: "PAUSED"
             StateChangeScript{
-                script: mainController.pause();
+                script: mainController.pause(gameLoop, bulletList);
             }
         },
             State{
                 name: "RUNNING"
                 StateChangeScript{
-                    script: mainController.play();
+                    script: mainController.play(gameLoop, bulletList);
                 }
             },
             State{
@@ -44,7 +45,8 @@ Window {
             id:mouseArea
             propagateComposedEvents: true
             anchors.fill: parent
-            onPositionChanged: mainController.follow();
+            onPositionChanged: mainController.follow(this, game, root.width, game.playerWidth);
+            onClicked: mainController.shot(gameWrapper.state);
             hoverEnabled:true
         }
 
@@ -56,7 +58,13 @@ Window {
             id:game
             visible:false
         }
-
+        Timer{
+            id:gameLoop
+            interval:Parameters.gameSpeed
+            repeat:true
+            running:false
+            onTriggered:mainController.gameLoop(bulletList);
+        }
 
     }
 

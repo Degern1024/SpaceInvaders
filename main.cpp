@@ -6,6 +6,8 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
+//    qmlRegisterSingletonType(QStringLiteral("Parameters.qml"), "Parameters", 1,0,"Parameters");
+
     QQmlApplicationEngine engine;
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed,
         &app, []() { QCoreApplication::exit(-1); },

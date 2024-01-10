@@ -2,6 +2,10 @@ import QtQuick
 
 Item {
     property alias playerPos: player.x
+    property alias playerWidth: player.width
+    property alias playerHeight: player.height
+//    property alias playerX: player.x
+
     signal follow()
     Rectangle{
         id:player

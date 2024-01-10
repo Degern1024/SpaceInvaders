@@ -20,7 +20,7 @@ Item {
         }
         running=true;
 //        mainController.showUI(false);
-        stateID.state="RUNNING";
+        gameWrapper.state="RUNNING";
 
         console.log("start gry przycisk dziala");
     }
