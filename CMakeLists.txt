@@ -11,12 +11,23 @@ qt_standard_project_setup(REQUIRES 6.5)
 qt_add_executable(appSpaceInvaders
     main.cpp
 )
+set_source_files_properties(
+    Parameters.qml
+    PROPERTIES QT_QML_SINGLETON_TYPE TRUE
+)
 
 qt_add_qml_module(appSpaceInvaders
     URI SpaceInvaders
     VERSION 1.0
     QML_FILES Main.qml
     QML_FILES Menu.qml
+    QML_FILES Game.qml
+    player2.png
+    QML_FILES MenuController.qml
+    SOURCES
+    QML_FILES MainController.qml
+    QML_FILES Bullet.qml
+    QML_FILES Parameters.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

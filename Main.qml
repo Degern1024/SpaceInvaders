@@ -10,25 +10,29 @@ Window {
     title: qsTr("Hello World")
 
 //bool running
+    property bool running:false //true if game started, nothing else
+    property list<Bullet> bulletList;
     Item{
-        id: stateID
+        id: gameWrapper
         focus: true
         state: "IDLE"
         anchors.fill: parent
-        Keys.onPressed: toggleGame();
 
+        MainController{id:mainController}
+
+        Keys.onEscapePressed: mainController.toggleGame();
 
         states:[
         State{
             name: "PAUSED"
             StateChangeScript{
-                script: root.pause();
+                script: mainController.pause(gameLoop, bulletList);
             }
         },
             State{
-                name: "CONTINUE"
+                name: "RUNNING"
                 StateChangeScript{
-                    script: root.play();
+                    script: mainController.play(gameLoop, bulletList);
                 }
             },
             State{
@@ -37,43 +41,38 @@ Window {
 
         ]
 
-        Menu{
-            onStart: root.start();
+        MouseArea{
+            id:mouseArea
+            propagateComposedEvents: true
+            anchors.fill: parent
+            onPositionChanged: mainController.follow(this, game, root.width, game.playerWidth);
+            onClicked: mainController.shot(gameWrapper.state);
+            hoverEnabled:true
         }
 
-
-
-
-    }
-
-
-
-
-
-
-    function toggleGame(){
-//        if()
-
-        if(stateID.state=="PAUSED"){
-            stateID.state="CONTINUE";
-//            root.play();
+        MenuController{
+            id:menu
+//            onStart: root.start();
         }
-        else{
-            stateID.state="PAUSED";
-//            root.pause();
+        Game{
+            id:game
+            visible:false
+        }
+        Timer{
+            id:gameLoop
+            interval:Parameters.gameSpeed
+            repeat:true
+            running:false
+            onTriggered:mainController.gameLoop(bulletList);
         }
 
-        console.log("toggling");
     }
 
-    function start(){
-        console.log("start gry dziala");
-    }
-    function pause(){
-        console.log("pause works");
-    }
-    function play(){
-        console.log("play works");
-    }
+
+
+
+
+
+
 
 }

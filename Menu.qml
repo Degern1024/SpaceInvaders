@@ -4,7 +4,11 @@ import QtQuick.Controls
 Item {
 id: menu
 //    property alias fun: b1.onClicked
+        property alias notificationVis: notification.visible
         signal start()
+        signal show()
+        signal quit()
+        signal hide()
     Text{
         x: root.width/3
         y: root.height/4
@@ -15,7 +19,7 @@ id: menu
 
     Button{
         id: b1
-        x: root.width/3*1.25
+        x: root.width/3 * 1.25
         y: root.height/3
         width: 70
         height: 30
@@ -28,8 +32,8 @@ id: menu
     }
     Button{
         id: b2
-        x: root.width/3*1.25
-        y: root.height/3+b1.height+10
+        x: root.width/3 * 1.25
+        y: root.height/3 + b1.height+10
         width: 70
         height: 30
         Text{
@@ -45,14 +49,14 @@ id: menu
         Text{
             id: warning
             text: "Do you want to exit?"
-            x: root.width/3*1.15
-            y: root.height/3+b1.height+b2.height+10
+            x: root.width/3 * 1.15
+            y: root.height/3 + b1.height + b2.height + 10
 
         }
 
         Button{
-            x: root.width/3*1.05
-            y: root.height/3+b1.height+b2.height+warning.height+10
+            x: root.width/3 * 1.05
+            y: root.height/3 + b1.height + b2.height + warning.height + 10
             width: 70
             height: 30
             Text{
@@ -63,8 +67,8 @@ id: menu
             onClicked: quit();
         }
         Button{
-            x: root.width/3*1.45
-            y: root.height/3+b1.height+b2.height+warning.height+10
+            x: root.width/3 * 1.45
+            y: root.height/3 + b1.height + b2.height + warning.height + 10
             width: 70
             height: 30
             Text{
@@ -80,14 +84,5 @@ id: menu
 //    function start(){
 //        console.log("dziala");
 //    }
-    function show(){
-        notification.visible=true;
-    }
 
-    function quit(){
-        Qt.exit(0);
-    }
-    function hide(){
-        notification.visible=false;
-    }
 }
