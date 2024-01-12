@@ -15,18 +15,18 @@ Item {
 
 
     function start(){
-        if(root.running==false){
+        if(root.running === false){
             mainController.firstStart();
         }
-        running=true;
+        running = true;
 //        mainController.showUI(false);
-        gameWrapper.state="RUNNING";
+        gameWrapper.state = "RUNNING";
 
         console.log("start gry przycisk dziala");
     }
     function show(){
 //        console.log(menu.notificationVis);
-        menu.notificationVis=true;
+        menu.notificationVis = true;
 //        console.log(menu.notificationVis);
     }
 
@@ -34,6 +34,6 @@ Item {
         Qt.exit(0);
     }
     function hide(){
-        menu.notificationVis=false;
+        menu.notificationVis = false;
     }
 }
