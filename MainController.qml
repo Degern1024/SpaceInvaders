@@ -24,20 +24,24 @@ Item{
         console.log("toggling");
     }
 
-    function pause(loop, allyBullets){
-        showUI(true, allyBullets);
+    function pause(loop, allyBullets, enemies){
+        showUI(true, allyBullets, enemies);
+        for(var i =0; i< bulletList.length;i++) bulletList[i].animationPaused=true;
         loop.running = false;
+
         console.log("pause works");
     }
-    function play(loop, allyBullets){
-        showUI(false, allyBullets);
+    function play(loop, allyBullets, enemies){
+        showUI(false, allyBullets, enemies);
+        for(var i =0; i< bulletList.length;i++) bulletList[i].animationPaused=false;
         loop.running = true;
         console.log("play works");
     }
-    function showUI(show, allyBullets){
+    function showUI(show, allyBullets, enemies){
         menu.visible = show;
         game.visible = !show;
         allyBullets.forEach((bullet) => bullet.visible=!show);
+        enemies.visible=!show;
 
     }
     function firstStart(){
@@ -64,6 +68,7 @@ Item{
     //creates object and adds him to window.bulletList (where game logic is)
     function shot(gameState, parentObj=root, player=game){
         console.log(gameState);
+
         if(gameState === "RUNNING"){
             console.log("shoting");
             var currentTime = new Date();
@@ -77,7 +82,7 @@ Item{
             obj.startX = player.playerPos + player.playerWidth/2 + 0.5 - obj.bulletWidth/2;
             obj.startY = parentObj.height - obj.bulletHeight - player.playerHeight;
             obj.visible = true;
-
+            obj.animationRunning=true;
             parentObj.bulletList.push(obj);
             console.log(parentObj.bulletList.length);
         }
@@ -88,12 +93,14 @@ Item{
     function gameLoop(bullets){
 //        console.log("game loop is not finished")
         //bullet movement
-        updateBullets(bullets);
+//        updateBullets(bullets);
+
         removeBullets(bullets);
         //enemy movement
         //checking bullet collision
     }
     function updateBullets(bullets){
+        console.log("use of deprecated function");
         console.log("bullets");
         bullets.forEach((item)=>{
                   item.startY -= Parameters.bulletSpeed;

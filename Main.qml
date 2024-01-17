@@ -26,13 +26,13 @@ Window {
         State{
             name: "PAUSED"
             StateChangeScript{
-                script: mainController.pause(gameLoop, bulletList);
+                script: mainController.pause(gameLoop, bulletList, enemies);
             }
         },
             State{
                 name: "RUNNING"
                 StateChangeScript{
-                    script: mainController.play(gameLoop, bulletList);
+                    script: mainController.play(gameLoop, bulletList, enemies);
                 }
             },
             State{
@@ -48,10 +48,12 @@ Window {
             onPositionChanged: mainController.follow(this, game, root.width, game.playerWidth);
             onClicked: mainController.shot(gameWrapper.state);
             hoverEnabled:true
+            z:100
         }
 
         MenuController{
             id:menu
+            z:150
 //            onStart: root.start();
         }
         Game{
@@ -65,7 +67,13 @@ Window {
             running:false
             onTriggered:mainController.gameLoop(bulletList);
         }
+        MVCEnemy{
+            //https://stackoverflow.com/questions/25029180/dynamically-create-listmodel-in-qml
+//            //TODO: visible false, connect this with previous functions
+            id:enemies
+            visible: false
 
+        }
     }
 
 

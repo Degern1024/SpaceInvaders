@@ -28,6 +28,9 @@ qt_add_qml_module(appSpaceInvaders
     QML_FILES MainController.qml
     QML_FILES Bullet.qml
     QML_FILES Parameters.qml
+    QML_FILES Enemy.qml
+    QML_FILES MVCEnemy.qml
+    enemy.png
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
