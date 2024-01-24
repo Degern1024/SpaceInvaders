@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Window
 import SpaceInvaders
 
+
 Window {
     id: root
     width: 640
@@ -12,13 +13,24 @@ Window {
 //bool running
     property bool running:false //true if game started, nothing else
     property list<Bullet> bulletList;
+//    property list<MVCEnemy> listEnemy
+
+
+
     Item{
         id: gameWrapper
         focus: true
         state: "IDLE"
         anchors.fill: parent
 
-        MainController{id:mainController}
+        MainController{
+            id:mainController
+            enemyRow1:enemies
+            gameData:myGameData//may show error, but compiles
+//            enemyRow2:enemiesRow2
+//            enemyRow3:enemiesRow3
+
+        }
 
         Keys.onEscapePressed: mainController.toggleGame();
 
@@ -40,6 +52,8 @@ Window {
             }
 
         ]
+
+
 
         MouseArea{
             id:mouseArea
@@ -68,12 +82,15 @@ Window {
             onTriggered:mainController.gameLoop(bulletList);
         }
         MVCEnemy{
-            //https://stackoverflow.com/questions/25029180/dynamically-create-listmodel-in-qml
-//            //TODO: visible false, connect this with previous functions
             id:enemies
             visible: false
-
         }
+        GameData{
+            id:myGameData
+//            Component.onCompleted: console.log(myGameData.getDirection());
+        }
+
+
     }
 
 

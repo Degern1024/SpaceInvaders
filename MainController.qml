@@ -1,9 +1,17 @@
 import QtQuick
+import SpaceInvaders
 
 Item{
     //this qml file is just a collection of methods
 //    id: controller
+    required property MVCEnemy enemyRow1
+    required property GameData gameData
 
+
+
+//    required property MVCEnemy enemyRow2
+//    required property MVCEnemy enemyRow3
+    property int direction:1
 
     function toggleGame(){
         if(!root.running){
@@ -34,6 +42,13 @@ Item{
     function play(loop, allyBullets, enemies){
         showUI(false, allyBullets, enemies);
         for(var i =0; i< bulletList.length;i++) bulletList[i].animationPaused=false;
+
+        //TODO object collision
+        var tmp = enemyRow1;
+        console.log("enemyY"+enemyRow1.model.get(2).enemyY+"");
+
+
+
         loop.running = true;
         console.log("play works");
     }
@@ -41,8 +56,10 @@ Item{
         menu.visible = show;
         game.visible = !show;
         allyBullets.forEach((bullet) => bullet.visible=!show);
-        enemies.visible=!show;
-
+//        enemies.visible=!show;
+        enemyRow1.visible=!show;
+//        enemyRow2.visible=!show;
+//        enemyRow3.visible=!show;
     }
     function firstStart(){
         console.log("first start only function")
@@ -91,10 +108,15 @@ Item{
         }
     }
     function gameLoop(bullets){
+
+            console.log(gameData.getDirection());
 //        console.log("game loop is not finished")
         //bullet movement
 //        updateBullets(bullets);
 
+//        console.log(gameData)
+
+        bulletCollision(bullets);
         removeBullets(bullets);
         //enemy movement
         //checking bullet collision
@@ -112,7 +134,6 @@ Item{
 
     }
     function removeBullets(bullets){
-//        console.log("TODO remove bullets out of bonds");
 
         for(var i = 0; i < bullets.length; i++){
 //            console.log("sY"+bullets[i].startY+"<" + bullets[i].bulletHeight);
@@ -126,8 +147,57 @@ Item{
 
     }
     function removeBullet(bullets, index){
+        bullets[index].visible=false;
         bullets.splice(index,1);
     }
+    function removeEnemy(index){
+        enemyRow1.model.remove(index,1);
+    }
+
+    function bulletCollision(bullets){
+        var bulletX;
+        var bulletY;
+//        console.log("bulletCollision");
+
+        //do this with for instead of for each
+        for(var i=0;i<bullets.length;i++){
+                    bulletX=bullets[i].startX+bullets[i].bulletWidth/2;
+                    bulletY=bullets[i].startY+bullets[i].bulletHeight/2;
+
+                        for(var j=0;j<enemyRow1.model.count;j++){
+//                        console.log(i);
+                        if(checkBullet(bullets[i], bulletX, bulletY, enemyRow1.model.get(j))){
+                                    console.log("enemy collided with bullet");
+                                    removeEnemy(j);
+                                    removeBullet(bullets,i);//this should be for instead of for each
+                                    break;
+                                }
+                    }
+        }
+    }
+    //check if bullet collides with 1 enemy; true -> bullet collides with singleEnemy
+    function checkBullet(bullet, bulletX,bulletY, singleEnemy){
+
+//        var enemyX=singleEnemy.enemyX+Enemy.width/2;
+//        var enemyY=singleEnemy.enemyY+Enemy.height/2;
+        var enemyX=singleEnemy.enemyX+20.5;
+        var enemyY=singleEnemy.enemyY+10.5;
+
+//        if(Math.abs(enemyX-bulletX) <= 20.5+bullet.bulletWidth/2){
+//            console.log("x sie zgadzaja");
+//        }
+//        if(Math.abs(enemyY-bulletY) <= 10.5+bullet.bulletHeight/2){
+//            console.log("Y sie zgadzaja");
+//        }
+
+        if(Math.abs(enemyX-bulletX) <= 20.5+bullet.bulletWidth/2 && Math.abs(enemyY-bulletY) <= 10.5+bullet.bulletHeight/2){
+            return true;
+        }
+
+
+        return false;
+    }
+
 
 }
 

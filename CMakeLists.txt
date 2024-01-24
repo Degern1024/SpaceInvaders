@@ -31,6 +31,7 @@ qt_add_qml_module(appSpaceInvaders
     QML_FILES Enemy.qml
     QML_FILES MVCEnemy.qml
     enemy.png
+    SOURCES gamedata.h gamedata.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
