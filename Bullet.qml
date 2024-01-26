@@ -9,14 +9,11 @@ Item {
     property alias animationPaused: animation.paused
     property alias animationRunning: animation.running
 
-
-
-
     visible:false
     Rectangle{
-        id:bullet
-        width:10
-        height:30
+        id: bullet
+        width: 10
+        height: 30
 //        border.color: "green"
         color: "green"
 //        y:root.height-30-game.playerHeight
@@ -24,16 +21,15 @@ Item {
             id: animation
 //            property: "animation"
 //            to: -bullet.height-1;
-            from:root.height-30-game.playerHeight
-            to:-50
-            running:false
+            from: root.height - 30 - game.playerHeight
+            to: -50
+            running: false
 //            paused:true
-            duration: (root.height-30-game.playerHeight)/3*Parameters.gameSpeed
+//            duration: (root.height-30-game.playerHeight)/3*Parameters.gameSpeed//initial speed
+            duration: (root.height-30-game.playerHeight)/3*Parameters.gameSpeed * 0.5//double initial speed
+
 //            duration:4719
         }
-
-    }
-    function show(){
 
     }
 

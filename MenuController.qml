@@ -25,9 +25,7 @@ Item {
         console.log("start gry przycisk dziala");
     }
     function show(){
-//        console.log(menu.notificationVis);
         menu.notificationVis = true;
-//        console.log(menu.notificationVis);
     }
 
     function quit(){

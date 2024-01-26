@@ -33,7 +33,7 @@ id: menu
     Button{
         id: b2
         x: root.width/3 * 1.25
-        y: root.height/3 + b1.height+10
+        y: root.height/3 + b1.height + 10
         width: 70
         height: 30
         Text{

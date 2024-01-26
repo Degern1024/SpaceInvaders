@@ -33,16 +33,16 @@ Item {
 
     }
     Repeater{
-        id:listView
-        width:root.width
-        height:root.height//enemy height
+        id: listView
+        width: root.width
+        height: root.height//enemy height
 //        height:640
 //        width:320
         model: enemyModel
         delegate: Enemy{
-            id:enemy
-            y:enemyY
-            x:enemyX
+            id: enemy
+            y: enemyY
+            x: enemyX
 //            Component.onCompleted: console.log(y+"index"+index);
         }
     }

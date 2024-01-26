@@ -18,7 +18,7 @@ public:
 signals:
 
 private:
-    int m_direction=1024;
+    int m_direction=1;
 };
 
 #endif // GAMEDATA_H

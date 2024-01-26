@@ -10,12 +10,8 @@ Window {
     visible: true
     title: qsTr("Hello World")
 
-//bool running
-    property bool running:false //true if game started, nothing else
+    property bool running: false //true if game started, nothing else
     property list<Bullet> bulletList;
-//    property list<MVCEnemy> listEnemy
-
-
 
     Item{
         id: gameWrapper
@@ -24,11 +20,13 @@ Window {
         anchors.fill: parent
 
         MainController{
-            id:mainController
-            enemyRow1:enemies
-            gameData:myGameData//may show error, but compiles
-//            enemyRow2:enemiesRow2
-//            enemyRow3:enemiesRow3
+            id: mainController
+            enemyRow1: enemies
+            gameData: myGameData//may show error, but compiles
+            enemyWidth: 41
+            failureY: root.height - 21 - game.playerHeight//41 is height of enemy
+            endScreen: end
+            mouseTrigger: mouseArea
 
         }
 
@@ -56,40 +54,44 @@ Window {
 
 
         MouseArea{
-            id:mouseArea
+            id: mouseArea
             propagateComposedEvents: true
             anchors.fill: parent
             onPositionChanged: mainController.follow(this, game, root.width, game.playerWidth);
             onClicked: mainController.shot(gameWrapper.state);
-            hoverEnabled:true
-            z:100
+            hoverEnabled: true
+            z: 100
         }
 
         MenuController{
-            id:menu
-            z:150
+            id: menu
+            z: 150
 //            onStart: root.start();
         }
         Game{
-            id:game
-            visible:false
+            id: game
+            visible: false
         }
         Timer{
-            id:gameLoop
-            interval:Parameters.gameSpeed
-            repeat:true
-            running:false
-            onTriggered:mainController.gameLoop(bulletList);
+            id: gameLoop
+            interval: Parameters.gameSpeed
+            repeat: true
+            running: false
+            onTriggered: mainController.gameLoop(bulletList);
         }
         MVCEnemy{
-            id:enemies
+            id: enemies
             visible: false
         }
         GameData{
-            id:myGameData
+            id: myGameData
 //            Component.onCompleted: console.log(myGameData.getDirection());
         }
-
+        EndScreen{
+            id: end
+            visible: false
+            z: 90
+        }
 
     }
 
