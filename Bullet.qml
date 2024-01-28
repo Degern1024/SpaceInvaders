@@ -13,7 +13,7 @@ Item {
     Rectangle{
         id: bullet
         width: 10
-        height: 30
+        height: 20
 //        border.color: "green"
         color: "green"
 //        y:root.height-30-game.playerHeight
@@ -21,7 +21,7 @@ Item {
             id: animation
 //            property: "animation"
 //            to: -bullet.height-1;
-            from: root.height - 30 - game.playerHeight
+            from: root.height - bullet.height - game.playerHeight
             to: -50
             running: false
 //            paused:true

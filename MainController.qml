@@ -1,4 +1,5 @@
 import QtQuick
+import QtMultimedia
 import SpaceInvaders
 
 Item{
@@ -10,19 +11,21 @@ Item{
     required property int failureY
     required property EndScreen endScreen
     required property MouseArea mouseTrigger
+    required property MediaPlayer mediaPlayer
+
 
     property double startTime;
     property double timeOffset: 0;//Date.now() - Date.now() returns double
 
     property int direction: 1
-    property bool gameEnded: false
+//    property bool gameEnded: false
 
     function toggleGame(){
         if(!root.running){
             console.log("game is not started")
             return;
         }
-        if(gameEnded) return;
+        if(endScreen.visible) return;
 
         if(gameWrapper.state === "PAUSED"){
             gameWrapper.state = "RUNNING";
@@ -88,6 +91,8 @@ Item{
             var timeDiff = currentTime - lastShot;
             console.log(timeDiff);
             if(timeDiff < Parameters.delayShots) return;
+            if(mediaPlayer.playing) mediaPlayer.stop();
+            mediaPlayer.play();
 
             lastShot = currentTime;
             var component = Qt.createComponent("Bullet.qml");
@@ -127,8 +132,10 @@ Item{
         }
     }
     function removeBullet(bullets, index){
+        var t=bullets[index];
         bullets[index].visible = false;
         bullets.splice(index,1);
+        t.destroy();
     }
     function removeEnemy(index){
         enemyRow1.model.remove(index, 1);
@@ -148,6 +155,7 @@ Item{
                                     console.log("enemy collided with bullet");
                                     removeEnemy(j);
                                     removeBullet(bullets,i);
+                                    gameData.addSpeed(0.03);
                                     if(enemyRow1.model.count === 0) {
                                         console.log("no enemies left");
                                         gameOver("Wygrałeś, zajęło ci to: " + ((timeOffset+Date.now() - startTime)/1000).toString() + " sekund", bullets);
@@ -175,7 +183,7 @@ Item{
         var singleEnemy;
         for(var i = 0; i < enemyRow1.model.count; i++){
             singleEnemy = enemyRow1.model.get(i);
-            singleEnemy.enemyX = singleEnemy.enemyX + Parameters.enemySpeedX * gameData.getDirection();
+            singleEnemy.enemyX = singleEnemy.enemyX + Parameters.enemySpeedX * gameData.getDirection()*gameData.getSpeed();
             //41 is enemy.Width
             if(singleEnemy.enemyX <=0 || singleEnemy.enemyX+enemyWidth > root.width){
                 changeDir=true;
@@ -184,6 +192,7 @@ Item{
         if(changeDir == true){
             gameData.changeDirection();
             lowerEnemies(bullets);
+            gameData.addSpeed(0.15);
         }
     }
     function lowerEnemies(bullets){
@@ -200,7 +209,7 @@ Item{
         console.log(notification);
         for(var i = 0; i < bullets.length; i++) bullets[i].visible = false;
         endScreen.txt = notification;
-        gameEnded = true;
+//        gameEnded = true;
         endScreen.visible = true;
         mouseTrigger.enabled = false;
     }

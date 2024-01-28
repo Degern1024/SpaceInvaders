@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Window
+import QtMultimedia
 import SpaceInvaders
 
 
@@ -27,7 +28,7 @@ Window {
             failureY: root.height - 21 - game.playerHeight//41 is height of enemy
             endScreen: end
             mouseTrigger: mouseArea
-
+            mediaPlayer: laser
         }
 
         Keys.onEscapePressed: mainController.toggleGame();
@@ -77,7 +78,7 @@ Window {
             interval: Parameters.gameSpeed
             repeat: true
             running: false
-            onTriggered: mainController.gameLoop(bulletList);
+            onTriggered: mainController.gameLoop(bulletList, gameLoop);
         }
         MVCEnemy{
             id: enemies
@@ -91,6 +92,24 @@ Window {
             id: end
             visible: false
             z: 90
+        }
+
+        MediaPlayer{
+            id: soundtrack
+            source: "soundtrack.mp3"
+            loops: MediaPlayer.Infinite
+            audioOutput: AudioOutput{
+                volume: 0.1
+            }
+            Component.onCompleted: soundtrack.play();
+        }
+        MediaPlayer{
+            id: laser
+            source: "laser.mp3"
+            audioOutput: AudioOutput{
+                volume: 0.1
+            }
+//            Component.onCompleted: soundtrack.play();
         }
 
     }

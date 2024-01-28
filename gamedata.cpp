@@ -11,4 +11,10 @@ void GameData::changeDirection(){
 int GameData::getDirection(){
     return m_direction;
 }
-
+void GameData::addSpeed(float v){
+    m_speed_multiplayer += v;
+    if(m_speed_limit < m_speed_multiplayer) m_speed_multiplayer = m_speed_limit;
+}
+float GameData::getSpeed(){
+    return m_speed_multiplayer;
+}
